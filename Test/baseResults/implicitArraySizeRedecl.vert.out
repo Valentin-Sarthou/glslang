@@ -79,10 +79,6 @@ Linked vertex stage:
 
 Linked geometry stage:
 
-ERROR: Linking vertex and geometry stages: Member names and types must match:
-    Block: gl_PerVertex
-        vertex stage: " float gl_ClipDistance[8]"
-        geometry stage: " float gl_ClipDistance[1]"
 
 Shader version: 410
 0:? Sequence

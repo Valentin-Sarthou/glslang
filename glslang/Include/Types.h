@@ -2623,8 +2623,21 @@ public:
             }
             if (li < structure->size() && ri < right.structure->size()) {
                 if ((*structure)[li].type->getFieldName() == (*right.structure)[ri].type->getFieldName()) {
-                    if (*(*structure)[li].type != *(*right.structure)[ri].type)
-                        return false;
+                    if (isGLPerVertex) {
+                        const TType& leftType = *(*structure)[li].type;
+                        const TType& rightType = *(*right.structure)[ri].type;
+                        if (!leftType.sameElementType(rightType) ||
+                            !(leftType.sameArrayness(rightType) || leftType.isImplicitlySizedArray() || rightType.isImplicitlySizedArray()) ||
+                            !leftType.sameTypeParameters(rightType) ||
+                            !leftType.sameCoopMatUse(rightType) ||
+                            !leftType.sameSpirvType(rightType))
+                        {
+                            return false;
+                        }
+                    } else {
+                        if (*(*structure)[li].type != *(*right.structure)[ri].type)
+                            return false;
+                    }
                 } else {
                     // Skip hidden members
                     if ((*structure)[li].type->hiddenMember()) {
